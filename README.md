@@ -1,6 +1,6 @@
-# Spotify
+# Experiment.com widget
 
-_Add Spotify playlists and get followers using Cloudflare Apps!_
+_Embed Experiment.com project widget to websites / blogs so people can donate to science!_
 
 ## Setup
 
@@ -17,7 +17,7 @@ Install the dependencies with `npm install`
 <a href="https://www.cloudflare.com/apps/spotify/install?source=button">
   <img
     src="https://install.eager.io/install-button.png"
-    alt="Install Spotify with Cloudflare Apps"
+    alt="Install Experiment with Cloudflare Apps"
     border="0"
     width="150">
 </a>
