@@ -3,6 +3,8 @@
 
   if (!window.addEventListener) return // Check for IE9+
 
+  const https = require('https')
+
   let options = INSTALL_OPTIONS
   let widgetElements = []
 
@@ -80,11 +82,38 @@
         div.height = size.height
         div.width = size.width
 
-        div.innerHTML = getURL(config)
-        console.log(getURL(config))
+        const apiUri = getURL(config)
+        div.innerHTML = apiUri
+        console.log(apiUri)
+
+        const apiOptions = {
+          url: apiUri,
+          headers: {
+            accept: '*/*'
+          }
+        }
 
         // container.appendChild(iframe)
         container.appendChild(div)
+
+        let rawText = https.get(apiOptions, (response) => {
+          // console.log('statusCode:', response.statusCode)
+          // console.log('headers:', response.headers)
+          console.log('response', response)
+          response.on('end', (d) => {
+            // console.log('data:', d)
+            const myJson = JSON.parse(d)
+            console.log('myJson', myJson)
+            return myJson
+          })
+
+        }).on('error', (e) => {
+          console.error(e)
+        })
+
+        console.log('out of the request', rawText)
+
+        
 
         return container
       })
