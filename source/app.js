@@ -31,15 +31,18 @@
 
     if (URLMatch) {
       const segments = URLMatch[1].split('/')
-      return ['spotify', ...segments].join(':') // FIXME
+      console.log(segments)
+      var temp = ['spotify', ...segments].join(':')
+      console.log(temp)
+      return temp // FIXME
     }
 
     return URI
   }
 
   function getURL (config) {
-    // parseURI(config.project.URI) // FIXME
-    const URI = 'fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc' // FIXME
+    const URI = parseURI(config.project.URI) // FIXME
+    // const URI = 'fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc' // FIXME
 
     // return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}`
     return `https://experiment.com/api/projects/${URI}/embed`
@@ -47,7 +50,6 @@
   }
 
   function updateElements () {
-    console.log('in updateElements')
     widgetElements.forEach(element => {
       if (element.parentElement) element.parentElement.removeChild(element)
     })
@@ -55,7 +57,6 @@
     widgetElements = options.widgets
       .reverse()
       .filter(config => {
-        console.log('in the filter')
         if (!document.querySelector(config.location.selector)) {
           console.log('location selector not found')
           return false
@@ -68,7 +69,6 @@
         return true
       })
       .map(config => {
-        console.log('in the map')
         const container = INSTALL.createElement(config.location)
         container.setAttribute('app', 'grasshopper')
         container.setAttribute('data-position', config.position)
