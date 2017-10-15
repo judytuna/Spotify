@@ -58,4 +58,12 @@ $.module = {
   ]
 }
 
+$.node = {}
+
+// $.resolve = {
+//   modules: [
+//     path.join(__dirname, "node_modules")
+//   ]
+// }
+
 module.exports = $

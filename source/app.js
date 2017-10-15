@@ -1,6 +1,9 @@
 (function () {
   'use strict'
 
+  // let fetch = require('fetch')
+  const request = require('request')
+
   if (!window.addEventListener) return // Check for IE9+
 
   let options = INSTALL_OPTIONS
