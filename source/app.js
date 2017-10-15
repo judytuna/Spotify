@@ -12,20 +12,17 @@
   const URL_PATTERN = new RegExp('experiment.com/api/projects/(.+)/embed')
 
   const SIZES = {
-    project: {
-
-      small: {
-        width: 300,
-        height: 80
-      },
-      large: {
-        width: 300,
-        height: 380
-      },
-      wide: {
-        width: 800,
-        height: 480
-      }
+    small: {
+      width: 300,
+      height: 80
+    },
+    large: {
+      width: 300,
+      height: 380
+    },
+    wide: {
+      width: 800,
+      height: 480
     }
   }
 
@@ -41,7 +38,7 @@
   }
 
   function getURL (config) {
-    parseURI(config.project.URI) // FIXME
+    // parseURI(config.project.URI) // FIXME
     const URI = 'fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc' // FIXME
 
     // return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}`
@@ -50,6 +47,7 @@
   }
 
   function updateElements () {
+    console.log('in updateElements')
     widgetElements.forEach(element => {
       if (element.parentElement) element.parentElement.removeChild(element)
     })
@@ -57,18 +55,26 @@
     widgetElements = options.widgets
       .reverse()
       .filter(config => {
-        if (!document.querySelector(config.location.selector)) return false
-        if (!config.project.URI) return false
+        console.log('in the filter')
+        if (!document.querySelector(config.location.selector)) {
+          console.log("location selector not found")
+          return false
+        }
+        // if (!config.project.URI) {
+        //   console.log("no config.project.URI")
+        //   return false
+        // }
 
         return true
       })
       .map(config => {
+        console.log('in the map')
         const container = INSTALL.createElement(config.location)
         container.setAttribute('app', 'grasshopper')
         container.setAttribute('data-position', config.position)
         container.setAttribute('data-size', config.size)
 
-        const size = SIZES[config.type][config.size]
+        const size = SIZES[config.size]
         const iframe = document.createElement('iframe')
 
         iframe.height = size.height
@@ -77,6 +83,7 @@
         iframe.setAttribute('allowtransparency', 'true')
 
         iframe.src = getURL(config)
+        console.log(getURL(config))
 
         container.appendChild(iframe)
 
