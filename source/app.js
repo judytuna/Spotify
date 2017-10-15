@@ -6,49 +6,27 @@
   let options = INSTALL_OPTIONS
   let widgetElements = []
 
-  const URL_PATTERN = new RegExp('spotify.com/(.+)')
-  const PLAYER_SIZES = {
-    small: {
-      width: 300,
-      height: 80
-    },
-    large: {
-      width: 300,
-      height: 380
-    },
-    wide: {
-      width: 800,
-      height: 480
-    }
-  }
+  // const URL_PATTERN = new RegExp('spotify.com/(.+)')
 
-  const FOLLOW_BUTTON_MODES = {
-    small: 'basic',
-    large: 'detail'
-  }
+  // https://experiment.com/api/projects/fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc/embed
+  const URL_PATTERN = new RegExp('experiment.com/api/projects/(.+)/embed')
 
   const SIZES = {
-    playlist: PLAYER_SIZES,
-    track: PLAYER_SIZES,
-    artist: {
+    project: {
+
       small: {
-        width: 200,
-        height: 28
+        width: 300,
+        height: 80
       },
       large: {
         width: 300,
-        height: 56
+        height: 380
       },
       wide: {
         width: 800,
-        height: 56
+        height: 480
       }
     }
-  }
-
-  const PLAYER_THEMES = {
-    light: 'white',
-    dark: 'black'
   }
 
   function parseURI (URI) {
@@ -56,33 +34,19 @@
 
     if (URLMatch) {
       const segments = URLMatch[1].split('/')
-      return ['spotify', ...segments].join(':')
+      return ['spotify', ...segments].join(':') // FIXME
     }
 
     return URI
   }
 
-  const getURL = {
-    artist (config) {
-      const size = FOLLOW_BUTTON_MODES[config.size]
-      const URISource = config.artist.URI === 'custom' ? config.artist.customURI : config.artist.URI
-      const URI = parseURI(URISource)
+  function getURL (config) {
+    parseURI(config.project.URI) // FIXME
+    const URI = 'fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc' // FIXME
 
-      return `https://open.spotify.com/follow/1/?uri=${URI}&size=${size}&theme=${config.theme}`
-    },
-    playlist (config) {
-      const theme = PLAYER_THEMES[config.theme]
-      const URISource = config.playlist.URI === 'custom' ? config.playlist.customURI : config.playlist.URI
-      const URI = parseURI(URISource)
-
-      return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}&view=${config.playlist.view}`
-    },
-    track (config) {
-      const theme = PLAYER_THEMES[config.theme]
-      const URI = parseURI(config.track.URI)
-
-      return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}`
-    }
+    // return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}`
+    // return `https://experiment.com/api/projects/${URI}/embed`
+    return `https://experiment.com/projects/${URI}`
   }
 
   function updateElements () {
@@ -94,18 +58,15 @@
       .reverse()
       .filter(config => {
         if (!document.querySelector(config.location.selector)) return false
-        if (config.type === 'playlist' && config.playlist.URI === 'custom' && !config.playlist.customURI) return false
-        if (config.type === 'track' && !config.track.URI) return false
-        if (config.type === 'artist' && !config.artist.URI) return false
+        if (!config.project.URI) return false
 
         return true
       })
       .map(config => {
         const container = INSTALL.createElement(config.location)
-        container.setAttribute('app', 'spotify')
+        container.setAttribute('app', 'grasshopper')
         container.setAttribute('data-position', config.position)
         container.setAttribute('data-size', config.size)
-        container.setAttribute('data-type', config.type)
 
         const size = SIZES[config.type][config.size]
         const iframe = document.createElement('iframe')
@@ -115,7 +76,7 @@
         iframe.frameBorder = '0'
         iframe.setAttribute('allowtransparency', 'true')
 
-        iframe.src = getURL[config.type](config)
+        iframe.src = getURL(config)
 
         container.appendChild(iframe)
 

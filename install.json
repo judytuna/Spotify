@@ -19,177 +19,32 @@
       }
     ]
   },
-  "hooks": [
-    {
-      "endpoint": "https://cf-apps-spotify.herokuapp.com",
-      "events": ["option-change:account"],
-      "block": true,
-      "authenticate": ["account"]
-    }
-  ],
   "options": {
     "properties": {
-      "account": {
-        "title": "Spotify Account",
-        "description": "Connect your Spotify account to list your playlists and followed artists.",
-        "type": "object",
-        "format": "account",
-        "services": ["spotify"],
-        "order": 0
-      },
-
       "widgets": {
         "title": "Widgets",
         "order": 3,
         "type": "array",
         "default": [
           {
-            "artist": {
-              "URI": "custom",
-              "customURI": "spotify:artist:7jefIIksOi1EazgRTfW2Pk"
-            },
             "location": {
               "method": "prepend",
               "selector": "body"
             },
-            "playlist": {
-              "URI": "custom",
-              "customURI": "spotify:user:erebore:playlist:788MOXyTfcUb1tdw4oC7KJ",
-              "view": "list"
-            },
             "position": "expand",
-            "size": "small",
-            "theme": "dark",
-            "track": {
-              "URI": "spotify:track:7tFiyTwD0nx5a1eklYtX2J"
+            "project": {
+              "URI": "fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc"
             },
-            "type": "playlist"
+            "size": "small"
           }
         ],
         "items": {
           "type": "object",
           "properties": {
-            "type": {
-              "order": 0,
-              "type": "string",
-              "title": "What kind of widget should be displayed?",
-              "format": "radios",
-              "default": "playlist",
-              "enum": [
-                "playlist",
-                "track",
-                "artist"
-              ],
-              "enumNames": {
-                "playlist": "A playlist",
-                "track": "A single track",
-                "artist": "A follow button"
-              }
-            },
-
-            "playlist": {
-              "order": 2,
-              "showIf": {
-                "widgets[].type": "playlist"
-              },
-              "type": "object",
-              "title": "Playlist",
-              "properties": {
-                "URI": {
-                  "order": 0,
-                  "title": "Playlist Name",
-                  "type": "string",
-                  "default": "custom",
-                  "enum": [
-                    "custom"
-                  ],
-                  "enumNames": {
-                    "custom": "Choose a playlist from a URI..."
-                  }
-                },
-
-                "customURI": {
-                  "order": 1,
-                  "showIf": {
-                    "widgets[].playlist.URI": "custom"
-                  },
-                  "title": "Playlist URI",
-                  "type": "string",
-                  "description": "This can be found in Spotify by right clicking a playlist and selecting “Copy Spotify URI”.",
-                  "placeholder": "spotify:user:jessie:playlist:123ABC..."
-                },
-
-                "view": {
-                  "order": 2,
-                  "type": "string",
-                  "title": "How should songs appear?",
-                  "format": "radios",
-                  "default": "list",
-                  "enum": [
-                    "list",
-                    "coverart"
-                  ],
-                  "enumNames": {
-                    "list": "As a list of tracks.",
-                    "coverart": "With their cover art."
-                  }
-                }
-              }
-            },
-
-            "track": {
-              "order": 2,
-              "showIf": {
-                "widgets[].type": "track"
-              },
-              "type": "object",
-              "title": "Single Track",
-              "properties": {
-                "URI": {
-                  "order": 0,
-                  "title": "Track URI",
-                  "type": "string",
-                  "description": "This can be found in Spotify by right clicking a track and selecting “Copy Spotify URI”.",
-                  "placeholder": "spotify:track:123ABC..."
-                }
-              }
-            },
-
-            "artist": {
-              "order": 2,
-              "showIf": {
-                "widgets[].type": "artist"
-              },
-              "type": "object",
-              "title": "Follow Button",
-              "properties": {
-                "URI": {
-                  "order": 0,
-                  "title": "Artist",
-                  "type": "string",
-                  "default": "custom",
-                  "enum": [
-                    "custom"
-                  ],
-                  "enumNames": {
-                    "custom": "Choose an artist from a URI..."
-                  }
-                },
-
-                "customURI": {
-                  "order": 1,
-                  "title": "Artist URI",
-                  "type": "string",
-                  "description": "This can be found in Spotify by right clicking an artist and selecting “Copy Spotify URI”.",
-                  "placeholder": "spotify:artist:123ABC..."
-                }
-              }
-            },
-
             "location": {
               "title": "Location",
               "description": "Where should the widget appear on the page?",
-              "order": 3,
+              "order": 0,
               "type": "object",
               "format": "element",
               "default": {
@@ -197,9 +52,8 @@
                 "method": "prepend"
               }
             },
-
             "position": {
-              "order": 4,
+              "order": 1,
               "title": "Horizontal alignment",
               "description": "How should the widget sit in the page?",
               "type": "string",
@@ -218,9 +72,23 @@
                 "expand": "Stretch to fit the page"
               }
             },
+            "project": {
+              "order": 3,
+              "type": "object",
+              "title": "Project",
+              "properties": {
+                "URI": {
+                  "order": 0,
+                  "title": "Project URI",
+                  "type": "string",
+                  "description": "This can be found in the experiment.com URL.",
+                  "placeholder": "fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc"
+                }
+              }
+            },
 
             "size": {
-              "order": 5,
+              "order": 4,
               "type": "string",
               "title": "Size",
               "description": "What size should the widget appear as?",
@@ -233,23 +101,6 @@
               "enumNames": {
                 "small": "Small",
                 "large": "Large"
-              }
-            },
-
-            "theme": {
-              "order": 6,
-              "type": "string",
-              "title": "Theme",
-              "description": "What color scheme should the widget use?",
-              "format": "radios",
-              "default": "light",
-              "enum": [
-                "light",
-                "dark"
-              ],
-              "enumNames": {
-                "light": "Light",
-                "dark": "Dark"
               }
             }
           }

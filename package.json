@@ -1,5 +1,5 @@
 {
-  "name": "cloudflare-app-spotify",
+  "name": "grasshopper",
   "version": "0.0.0",
   "description": "",
   "private": true,
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CloudflareApps/Spotify.git"
+    "url": "git+https://github.com/judytuna/grasshopper.git"
   },
-  "author": "Cloudflare Inc.",
+  "author": "Jade Wang and Judy Tuan",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/CloudflareApps/Spotify/issues"
+    "url": "https://github.com/judytuna/grasshopper/issues"
   },
-  "homepage": "https://github.com/CloudflareApps/Spotify#readme",
+  "homepage": "https://github.com/judytuna/grasshopper#readme",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer": "^6.7.7",
