@@ -83,37 +83,65 @@
         div.width = size.width
 
         const apiUri = getURL(config)
-        div.innerHTML = apiUri
         console.log(apiUri)
 
-        const apiOptions = {
-          url: apiUri,
-          headers: {
-            accept: '*/*'
-          }
-        }
-
-        // container.appendChild(iframe)
         container.appendChild(div)
 
-        let rawText = https.get(apiOptions, (response) => {
-          // console.log('statusCode:', response.statusCode)
-          // console.log('headers:', response.headers)
-          console.log('response', response)
-          response.on('end', (d) => {
-            // console.log('data:', d)
-            const myJson = JSON.parse(d)
-            console.log('myJson', myJson)
-            return myJson
-          })
+        function callExperiment(url, timeout, callback) {
+            var args = Array.prototype.slice.call(arguments, 3);
+            var xhr = new XMLHttpRequest();
+            xhr.ontimeout = function () {
+                console.error("The request for " + url + " timed out.");
+            };
+            xhr.onload = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        callback.apply(xhr, args);
+                    } else {
+                        console.error(xhr.statusText);
+                    }
+                }
+            };
+            xhr.open("GET", url, true);
+            xhr.timeout = timeout;
+            xhr.send(null);
+        }
 
-        }).on('error', (e) => {
-          console.error(e)
-        })
+        function showJson () {
+          expData = JSON.parse(this.responseText)
 
-        console.log('out of the request', rawText)
+            console.log(expData);
+            div.innerHTML = 
+              `<div class="funding-raised">
+                <span class="focus-stat">$${expData.funding_raised}</span>
+                <div class="description text-antialiased">
+                  Pledged
+                </div>
+                <div class="funding-bar">
+                  <div class="percent-funded" style="width:${expData.funding_percent}%;"></div>
+                  <div class="stretch-goal-funded" style="width:0%;"></div>
+                </div>
 
-        
+                <div class="funding-bar-stats">
+                  <div class="stat">
+                    <span>${expData.funding_percent}%</span>
+                    <div class="label">Funded</div>
+                  </div>
+                  <div class="stat">
+                    <span>$${expData.funding_target}</span>
+                    <div class="label">Goal</div>
+                  </div>
+                  <div class="stat float-right text-right">
+                    <span>${expData.funding_end}</span>
+                    <div class="label">Funding Ends</div>
+                  </div>
+                </div>
+              </div>`
+        }
+
+        callExperiment(apiUri, 2000, showJson);
+
+        console.log('out of the request')
 
         return container
       })
