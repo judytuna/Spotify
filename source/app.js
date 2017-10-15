@@ -108,7 +108,7 @@
         }
 
         function showJson () {
-          expData = JSON.parse(this.responseText)
+          const expData = JSON.parse(this.responseText)
 
             console.log(expData);
             div.innerHTML = 
@@ -137,6 +137,11 @@
                   </div>
                 </div>
               </div>`
+
+              const bannerImg = document.createElement('div')
+              bannerImg.style.backgroundImage = `url(${expData.banner})`
+              bannerImg.style.width = '100%'
+              container.appendChild(bannerImg)
         }
 
         callExperiment(apiUri, 2000, showJson);
