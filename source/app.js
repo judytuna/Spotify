@@ -42,8 +42,8 @@
     const URI = 'fanteca-project-student-led-study-of-opiates-and-overdose-in-nyc' // FIXME
 
     // return `https://open.spotify.com/embed?uri=${URI}&theme=${theme}`
-    // return `https://experiment.com/api/projects/${URI}/embed`
-    return `https://experiment.com/projects/${URI}`
+    return `https://experiment.com/api/projects/${URI}/embed`
+    // return `https://experiment.com/projects/${URI}`
   }
 
   function updateElements () {
@@ -57,11 +57,11 @@
       .filter(config => {
         console.log('in the filter')
         if (!document.querySelector(config.location.selector)) {
-          console.log("location selector not found")
+          console.log('location selector not found')
           return false
         }
         // if (!config.project.URI) {
-        //   console.log("no config.project.URI")
+        //   console.log('no config.project.URI')
         //   return false
         // }
 
@@ -75,17 +75,16 @@
         container.setAttribute('data-size', config.size)
 
         const size = SIZES[config.size]
-        const iframe = document.createElement('iframe')
+        const div = document.createElement('div')
 
-        iframe.height = size.height
-        iframe.width = size.width
-        iframe.frameBorder = '0'
-        iframe.setAttribute('allowtransparency', 'true')
+        div.height = size.height
+        div.width = size.width
 
-        iframe.src = getURL(config)
+        div.innerHTML = getURL(config)
         console.log(getURL(config))
 
-        container.appendChild(iframe)
+        // container.appendChild(iframe)
+        container.appendChild(div)
 
         return container
       })
